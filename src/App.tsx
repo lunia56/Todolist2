@@ -14,21 +14,22 @@ function App() {
         {id: v1(), title: 'ReactJS', isDone: false},//2
         {id: v1(), title: 'Postman', isDone: false}
     ])
-    let [filter, setFilter] = useState('all')
+    let [filter, setFilter] = useState<filterValueType>('All')
 
-
-    const addTask = (newTitle:string) => {
+    const addTask = (newTitle: string) => {
         const newTask = {id: v1(), title: newTitle, isDone: true}//0
-        setTasks([newTask,...tasks])
+        setTasks([newTask, ...tasks])
 
     }
-
+    const changeIsDone = (taskID: string, isDoneValue: boolean) => {
+        setTasks(tasks.map(el => el.id === taskID ? {...el, isDone: isDoneValue} : el))
+    }
 
     const removeTask = (taskID: string) => {
         setTasks(tasks.filter((el) => el.id !== taskID))
         // console.log()
     }
-    const filterTasks = (filterValue: string) => {
+    const filterTasks = (filterValue: filterValueType) => {
         setFilter(filterValue)
     }
 
@@ -48,6 +49,8 @@ function App() {
                 removeTask={removeTask}
                 filterTasks={filterTasks}
                 addTask={addTask}
+                changeIsDone={changeIsDone}
+                filter={filter}
             />
         </div>
     );

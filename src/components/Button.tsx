@@ -1,4 +1,6 @@
 import React from 'react';
+import {inspect} from 'util';
+
 
 type ButtonPropsType ={
     callBack:()=>void
@@ -10,7 +12,7 @@ export const Button = (props:ButtonPropsType) => {
     }
     return (
         <>
-            <button onClick={onClickHandler}>{props.nickName}</button>
+            <button  onClick={onClickHandler}>{props.nickName}</button>
         </>
     )
 }
