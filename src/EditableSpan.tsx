@@ -1,9 +1,9 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent,KeyboardEvent, useState} from 'react';
 
 type EditableSpanPropsType = {
     title: string
-    isDone: boolean
-    changeTitleTask: (newTitle: string) => void
+    className?: string
+    changeTitle: (newTitle: string) => void
 }
 export const EditableSpan = (props: EditableSpanPropsType) => {
     let [editMode, setEditMode] = useState(false)
@@ -12,21 +12,24 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle( e.currentTarget.value)
     }
+    const onKeyDownHandler=(e: KeyboardEvent<HTMLInputElement>) =>{
+        e.key === 'Enter' && activateViewMode()
+    }
     const activateEditMode=()=>{
         setEditMode(true)
         setTitle(props.title)
     }
     const activateViewMode=()=>{
         setEditMode(false)
-        props.changeTitleTask(title)
+        props.changeTitle(title)
     }
 
     return (
         <>
             {editMode
-                ? <input value={title} onChange={onChangeHandler} onBlur={activateViewMode} autoFocus/>
+                ? <input value={title} onChange={onChangeHandler} onKeyDown={onKeyDownHandler} onBlur={activateViewMode} autoFocus/>
                 : <span onDoubleClick={activateEditMode}
-                    className={props.isDone ? 'isDone' : ''}>{props.title}</span>
+                    className={props.className}>{props.title}</span>
                 }
         </>)
 }

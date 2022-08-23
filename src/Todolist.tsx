@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {FilterValuesType} from './App';
-import {AddItemInput} from './AddItemInput';
+import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 
 export type TaskType = {
@@ -20,7 +20,8 @@ type TodoListPropsType = {
     changeTodoListFilter: (filter: FilterValuesType, todoListID: string) => void
     addTask: (title: string, todoListID: string) => void
     changeTaskStatus: (taskID: string, isDone: boolean, todoListID: string) => void
-    changeTaskTitle: (newTitle: string, todoListID: string,id:string) => void
+    changeTaskTitle: (newTitle: string, todoListID: string, id: string) => void
+    changeTodoListTitle: (newTitle: string, todoListID: string) => void
 }
 
 
@@ -31,14 +32,16 @@ const TodoList: FC<TodoListPropsType> = (props) => {
     }
 
 
-
     const onClickSetFilterCreator = (filter: FilterValuesType) => () => props.changeTodoListFilter(filter, props.todoListID)
-
+    const removeTodoList = () => props.removeTodoList(props.todoListID)
+    const changeTodoListTitle = (newTitle: string) => {
+        props.changeTodoListTitle(newTitle, props.todoListID)
+    }
     const tasksItems = props.tasks.length
         ? props.tasks.map((task: TaskType) => {
-
+            let className = task.isDone ? 'isDone' : ''
             const changeTitleTask = (newTitle: string) => {
-                props.changeTaskTitle(newTitle, props.todoListID,task.id)
+                props.changeTaskTitle(newTitle, props.todoListID, task.id)
             }
 
             return (
@@ -50,7 +53,7 @@ const TodoList: FC<TodoListPropsType> = (props) => {
                         type="checkbox"
                         checked={task.isDone}/>
 
-                    <EditableSpan isDone={task.isDone} title={task.title} changeTitleTask={changeTitleTask}/>
+                    <EditableSpan className={className} title={task.title} changeTitle={changeTitleTask}/>
                     <button onClick={() => props.removeTask(task.id, props.todoListID)}>x</button>
                 </li>
             )
@@ -61,13 +64,12 @@ const TodoList: FC<TodoListPropsType> = (props) => {
     return (
         <div>
             <h3>
-                {props.title}
-                <button onClick={() => {
-                    props.removeTodoList(props.todoListID)
-                }}>X
+                <EditableSpan title={props.title} changeTitle={changeTodoListTitle}/>
+
+                <button onClick={removeTodoList}>X
                 </button>
             </h3>
-            <AddItemInput AddItem={AddTask}/>
+            <AddItemForm AddItem={AddTask}/>
             <ul>
                 {tasksItems}
             </ul>
