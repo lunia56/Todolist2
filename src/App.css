@@ -1,11 +1,11 @@
-.App {
-  padding: 30px;
-  display: flex;
-}
+/*.App {*/
+/*  padding: 30px;*/
+/*  display: flex;*/
+/*}*/
 
-.App > div {
-  margin-right: 50px;
-}
+/*.App > div {*/
+/*  margin-right: 50px;*/
+/*}*/
 
 .isDone {
   color: hotpink;
@@ -13,15 +13,15 @@
   text-decoration: line-through;
 }
 
-.btn-active {
-  color: white;
-  font-weight: bold;
-  background-color: hotpink;
-  border: 2px solid hotpink;
-  border-radius: 2px;
-}
+/*.btn-active {*/
+/*  color: white;*/
+/*  font-weight: bold;*/
+/*  background-color: hotpink;*/
+/*  border: 2px solid hotpink;*/
+/*  border-radius: 2px;*/
+/*}*/
 
-.error {
-  border: 2px solid hotpink;
-  outline: none;
-}
+/*.error {*/
+/*  border: 2px solid hotpink;*/
+/*  outline: none;*/
+/*}*/

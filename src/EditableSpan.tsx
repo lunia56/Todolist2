@@ -1,4 +1,5 @@
-import React, {ChangeEvent,KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {TextField} from '@material-ui/core';
 
 type EditableSpanPropsType = {
     title: string
@@ -10,16 +11,16 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
     let [title, setTitle] = useState('')
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle( e.currentTarget.value)
+        setTitle(e.currentTarget.value)
     }
-    const onKeyDownHandler=(e: KeyboardEvent<HTMLInputElement>) =>{
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         e.key === 'Enter' && activateViewMode()
     }
-    const activateEditMode=()=>{
+    const activateEditMode = () => {
         setEditMode(true)
         setTitle(props.title)
     }
-    const activateViewMode=()=>{
+    const activateViewMode = () => {
         setEditMode(false)
         props.changeTitle(title)
     }
@@ -27,9 +28,13 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
     return (
         <>
             {editMode
-                ? <input value={title} onChange={onChangeHandler} onKeyDown={onKeyDownHandler} onBlur={activateViewMode} autoFocus/>
+                ? <TextField value={title} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}
+                             onBlur={activateViewMode} autoFocus/>
+
+                // <input value={title} onChange={onChangeHandler} onKeyDown={onKeyDownHandler} onBlur={activateViewMode}
+                //        autoFocus/>
                 : <span onDoubleClick={activateEditMode}
                     className={props.className}>{props.title}</span>
                 }
-        </>)
-}
+                </>)
+            }
