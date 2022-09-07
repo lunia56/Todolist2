@@ -30,6 +30,7 @@ type TaskStateType = {
 function App() {
     const todoListId_1 = v1()
     const todoListId_2 = v1()
+
     const [todoLists, setTodoLists] = useState<Array<TodoListType>>([
         {id: todoListId_1, title: 'What to learn', filter: 'all'},
         {id: todoListId_2, title: 'What to buy', filter: 'all'}
@@ -48,21 +49,22 @@ function App() {
     })
 
 
+    const removeTodoList = (todoListID: string) => {
+        setTodoLists(todoLists.filter(tl => tl.id !== todoListID))
+        delete tasks[todoListID]
+    }
     const changeTodoListFilter = (filter: FilterValuesType, todoListID: string) => {
         setTodoLists(todoLists.map(tl => tl.id !== todoListID ? tl : {...tl, filter: filter}))
     }
     const changeTodoListTitle = (title: string, todoListID: string) => {
         setTodoLists(todoLists.map(tl => tl.id !== todoListID ? tl : {...tl, title}))
     }
-    const removeTodoList = (todoListID: string) => {
-        setTodoLists(todoLists.filter(tl => tl.id !== todoListID))
-        delete tasks[todoListID]
-    }
     const addTodoList = (title: string) => {
-        let todolist: TodoListType = {id: v1(), title, filter: 'all'}
+        let todolist: TodoListType = {id: v1(), title:title, filter: 'all'}
         setTodoLists([todolist, ...todoLists])
         setTasks({...tasks, [todolist.id]: []})
     }
+
     const addTask = (title: string, todoListID: string) => {
         setTasks({...tasks, [todoListID]: [{id: v1(), title, isDone: false}, ...tasks[todoListID]]})
     }
@@ -91,29 +93,30 @@ function App() {
 
 
     //UI:
-
-
-    const todoListComponents = todoLists.map(tl => {
+    const getTasksForRender = (todolist:TodoListType,tasks:TaskStateType)=>{
         let tasksForRender;
-        switch (tl.filter) {
+        switch (todolist.filter) {
             case 'completed':
-                tasksForRender = tasks[tl.id].filter(task => task.isDone)
+                tasksForRender = tasks[todolist.id].filter(task => task.isDone)
                 break
             case 'active':
-                tasksForRender = tasks[tl.id].filter(task => !task.isDone)
+                tasksForRender = tasks[todolist.id].filter(task => !task.isDone)
                 break
             default:
-                tasksForRender = tasks[tl.id]
+                tasksForRender = tasks[todolist.id]
         }
+        return tasksForRender
+    }
+
+    const todoListComponents = todoLists.map(tl => {
+
         return (
-
-
             <Grid item>
                 <Paper style={{padding: '20px'}} elevation={3}>
                     <TodoList
                         todoListID={tl.id}
                         title={tl.title}
-                        tasks={tasksForRender}
+                        tasks={getTasksForRender(tl,tasks)}
                         filter={tl.filter}
                         removeTask={removeTask}
                         changeTodoListFilter={changeTodoListFilter}
@@ -126,7 +129,6 @@ function App() {
                     />
                 </Paper>
             </Grid>
-
         );
     })
     return (
