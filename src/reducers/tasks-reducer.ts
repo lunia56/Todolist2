@@ -1,4 +1,4 @@
-import {TaskStateType} from '../App';
+ import {TaskStateType} from '../App';
 import {v1} from 'uuid';
 import {
     ADD_TODOLIST,
@@ -6,7 +6,8 @@ import {
     REMOVE_TODOLIST,
     RemoveTodolistAT,
     todoListId_1,
-    todoListId_2
+    todoListId_2,
+    todoListId_3
 } from './todolists-reducer';
 
 const REMOVE_TASK = 'REMOVE-TASK'
@@ -30,6 +31,11 @@ const initialState = {
         {id: v1(), title: 'Milk', isDone: true}, // => t
         {id: v1(), title: 'chees', isDone: true}, // => {...t, isDone}
         {id: v1(), title: 'pancel', isDone: false}, // => t
+    ],
+    [todoListId_3]: [
+        {id: v1(), title: 'working', isDone: false}, // => t
+        {id: v1(), title: 'learning', isDone: false}, // => {...t, isDone}
+        {id: v1(), title: 'relaxation', isDone: true}, // => t
     ]
 }
 export const tasksReducer = (state: TaskStateType=initialState, action: ActionType): TaskStateType => {
@@ -42,6 +48,12 @@ export const tasksReducer = (state: TaskStateType=initialState, action: ActionTy
                 [action.todolistId]:[{id:v1(),title:action.title,isDone:false},...state[action.todolistId]]
             }
         case CHANGE_TASK_STATUS:
+        // {
+        //     let todolistTasks = state[action.todolistId]
+        //     let task = todolistTasks.find(t => t.id === action.taskId)
+        //     if(task)task.isDone=action.isDone
+        //     return ({...state})
+        // }
             return {
                 ...state,
                 [action.todolistId]: state[action.todolistId].map(el => el.id === action.taskId ? {
@@ -84,3 +96,7 @@ export const addTaskAC = (title: string, todolistId: string) => {
 export const changeTaskTitleAC = (taskId: string, title: string, todolistId: string) => {
     return {type: CHANGE_TASK_TITLE, title, taskId, todolistId} as const
 }
+
+
+
+

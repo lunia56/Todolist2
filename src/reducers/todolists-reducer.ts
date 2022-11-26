@@ -14,12 +14,17 @@ type ChangeTodolistFilter = ReturnType<typeof ChangeTodolistFilterAC>
 type ActionType = RemoveTodolistAT | AddTodolistAT | ChangeTodolistTitle | ChangeTodolistFilter
 export const todoListId_1 = v1()
 export const todoListId_2 = v1()
+export const todoListId_3 = v1()
+
+
 
 const initialState:Array<TodoListType> = [
     {id: todoListId_1, title: 'What to learn', filter: 'all'},
-    {id: todoListId_2, title: 'What to buy', filter: 'all'}
+    {id: todoListId_2, title: 'What to buy', filter: 'all'},
+    {id: todoListId_3, title: 'What to do', filter: 'all'}
 ]
 export const todolistsReducer = (todoLists: Array<TodoListType>=initialState, action: ActionType): Array<TodoListType> => {
+
     switch (action.type) {
         case REMOVE_TODOLIST:
             return todoLists.filter(tl => tl.id !== action.todolistId)

@@ -119,7 +119,7 @@ function AppWithReducers() {
                     <TodoList
                         todoListID={tl.id}
                         title={tl.title}
-                        tasks={getTasksForRender(tl, tasks)}
+                        // tasks={getTasksForRender(tl, tasks)}
                         filter={tl.filter}
                         removeTask={removeTask}
                         changeTodoListFilter={changeTodoListFilter}
