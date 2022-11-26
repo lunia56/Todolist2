@@ -1,6 +1,5 @@
-import React, {useCallback, useReducer, useState} from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
-import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
 import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
 import {Menu} from '@material-ui/icons';
@@ -71,15 +70,11 @@ function AppWithRedux() {
 
     const changeTaskTitle = useCallback((newTitle: string, todoListID: string, taskID: string) => {
         dispatch( changeTaskTitleAC(taskID,newTitle,todoListID))
-    },[dispatch
-    ])
+    },[dispatch])
 
 
     //UI:
-    // const getTasksForRender = (todolist: TodoListType, tasks: TaskStateType) => {
-    //
-    //     return tasksForRender
-    // }
+
 
     const todoListComponents = todoLists.map(tl => {
 

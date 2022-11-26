@@ -1,13 +1,12 @@
-import React, {ChangeEvent, FC, useCallback} from 'react';
+import React, { FC, useCallback} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import Button from '@material-ui/core/Button';
-import {ButtonGroup, Checkbox, IconButton, List, ListItem, Typography} from '@material-ui/core';
+import {ButtonGroup, IconButton, List, Typography} from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {TaskStateType} from "./AppWithRedux";
 import Task from "./Task";
 
 export type TaskType = {
@@ -35,16 +34,6 @@ const TodoList: FC<TodoListPropsType> = React.memo((props) => {
     const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.task[props.todoListID])
 
     let tasksForRender = tasks;
-    // switch (props.filter) {
-    //     case 'completed':
-    //         tasksForRender = tasks.filter(task => task.isDone)
-    //         break
-    //     case 'active':
-    //         tasksForRender = tasks.filter(task => !task.isDone)
-    //         break
-    //     default:
-    //         break
-    // }
     if (props.filter === 'completed') {
         tasksForRender = tasks.filter(task => task.isDone)
     }
@@ -59,7 +48,7 @@ const TodoList: FC<TodoListPropsType> = React.memo((props) => {
 
 
     const onClickSetFilterCreator = useCallback((filter: FilterValuesType) => () => props.changeTodoListFilter(filter, props.todoListID), [props.todoListID])
-    const removeTodoList = () => props.removeTodoList(props.todoListID)
+    const removeTodoList = useCallback(() => props.removeTodoList(props.todoListID),[props.removeTodoList,props.todoListID])
     const changeTodoListTitle = useCallback((newTitle: string) => {
         props.changeTodoListTitle(newTitle, props.todoListID)
     }, [props.changeTodoListTitle])
@@ -81,54 +70,17 @@ const TodoList: FC<TodoListPropsType> = React.memo((props) => {
                 changeTaskTitle={changeTitleTask}
                 changeTaskStatus={ChangeTaskStatus}
                 removeTask={removeTask}
-                // todoListID={props.todoListID}
           />
         })
 
 
         : <span>TaskList is empty</span>
 
-    //         let className = task.isDone ? 'isDone' : ''
-    //
-    //         const ChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(task.id, e.currentTarget.checked, props.todoListID)
-    //
-    //         const changeTitleTask = (newTitle: string) => {
-    //             props.changeTaskTitle(newTitle, props.todoListID, task.id)
-    //         }
-    //         const removeTask = () => props.removeTask(task.id, props.todoListID)
-    //
-    //         return (
-    //
-    //             <ListItem key={task.id}>
-    //                 <Checkbox
-    //                     onChange={ChangeTaskStatus}
-    //                     checked={task.isDone}
-    //                     color={"primary"}
-    //                 />
-    //                 {/*<input*/}
-    //                 {/*    onChange={ChangeTaskStatus}*/}
-    //                 {/*    type="checkbox"*/}
-    //                 {/*    checked={task.isDone}/>*/}
-    //
-    //                 <EditableSpan className={className} title={task.title} changeTitle={changeTitleTask}/>
-    //                 {/*<button onClick={() => props.removeTask(task.id, props.todoListID)}>x</button>*/}
-    //                 <IconButton onClick={removeTask}
-    //                             size={"small"}
-    //                 ><HighlightOffIcon/></IconButton>
-    //             </ListItem>
-    //         )
-    //     })
-    //
-
 
     return (
         <div>
             <Typography variant={"h6"} align={"center"} paragraph>
                 <EditableSpan title={props.title} changeTitle={changeTodoListTitle}/>
-
-                {/*<Button*/}
-                {/*    onClick={removeTodoList}>X*/}
-                {/*</Button>*/}
                 <IconButton onClick={removeTodoList} size={"small"}><HighlightOffIcon/></IconButton>
             </Typography>
             <AddItemForm AddItem={AddTask}/>
