@@ -95,20 +95,20 @@ function App() {
 
 
     //UI:
-    const getTasksForRender = (todolist: TodoListType, tasks: TaskStateType) => {
-        let tasksForRender;
-        switch (todolist.filter) {
-            case 'completed':
-                tasksForRender = tasks[todolist.id].filter(task => task.isDone)
-                break
-            case 'active':
-                tasksForRender = tasks[todolist.id].filter(task => !task.isDone)
-                break
-            default:
-                tasksForRender = tasks[todolist.id]
-        }
-        return tasksForRender
-    }
+    // const getTasksForRender = (todolist: TodoListType, tasks: TaskStateType) => {
+    //     let tasksForRender;
+    //     switch (todolist.filter) {
+    //         case 'completed':
+    //             tasksForRender = tasks[todolist.id].filter(task => task.isDone)
+    //             break
+    //         case 'active':
+    //             tasksForRender = tasks[todolist.id].filter(task => !task.isDone)
+    //             break
+    //         default:
+    //             tasksForRender = tasks[todolist.id]
+    //     }
+    //     return tasksForRender
+    // }
 
     const todoListComponents = todoLists.map(tl => {
 

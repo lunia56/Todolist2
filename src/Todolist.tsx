@@ -56,7 +56,7 @@ const TodoList: FC<TodoListPropsType> = React.memo((props) => {
 
     const ChangeTaskStatus = useCallback((taskId:string, status:boolean) => props.changeTaskStatus(taskId, status,props.todoListID),[props.changeTaskStatus,props.todoListID])
 
-    const changeTitleTask = useCallback((taskId:string, newTitle: string,) => {
+    const changeTitleTask = useCallback((newTitle: string,taskId:string ) => {
         props.changeTaskTitle(newTitle, props.todoListID, taskId)
     },[props.changeTaskTitle,props.todoListID])
 

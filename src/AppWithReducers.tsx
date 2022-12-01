@@ -13,8 +13,8 @@ import {
     ChangeTodolistTitleAC,
     RemoveTodolistAC,
     todolistsReducer
-} from "./reducers/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./reducers/tasks-reducer";
+} from "./redux/todolists-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./redux/tasks-reducer";
 
 // CRUD
 // create +
