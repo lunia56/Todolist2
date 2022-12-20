@@ -1,7 +1,7 @@
 import React, {ChangeEvent, FC} from 'react';
 import {EditableSpan} from './EditableSpan';
-import { Checkbox, IconButton, ListItem} from '@material-ui/core';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import { Checkbox, IconButton, ListItem} from '@mui/material';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 
 export type TaskType = {

@@ -2,9 +2,9 @@ import React, { FC, useCallback} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
-import Button from '@material-ui/core/Button';
-import {ButtonGroup, IconButton, List, Typography} from '@material-ui/core';
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import {Button,ButtonGroup, IconButton, List, Typography} from '@mui/material';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
 import {useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import Task from "./Task";

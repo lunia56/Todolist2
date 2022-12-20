@@ -3,9 +3,9 @@ import './App.css';
 // import TodoList, {TaskType} from './TodoList';
 import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
-import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@material-ui/core';
-import {Menu} from '@material-ui/icons';
-import Button from '@material-ui/core/Button';
+import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
+import {Menu} from '@mui/icons-material';
+import Button from '@mui/material/Button';
 import TodoList, {TaskType} from "./Todolist";
 import {
     AddTodolistAC,

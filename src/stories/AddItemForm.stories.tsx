@@ -2,8 +2,8 @@ import React, {ChangeEvent, useState} from 'react';
 import {ComponentStory, ComponentMeta} from '@storybook/react';
 import {AddItemForm} from '../AddItemForm';
 import {action} from '@storybook/addon-actions';
-import {IconButton, TextField} from '@material-ui/core';
-import AddBoxIcon from '@material-ui/icons/AddBox';
+import {IconButton, TextField} from "@mui/material";
+import {AddBox} from '@mui/icons-material';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -58,7 +58,7 @@ const TemplateWithError: ComponentStory<typeof AddItemForm> = (args) => {
                        helperText={error && "Title is required!"}/>
             <IconButton size={'small'}
                         onClick={onClickAddItem}>
-                <AddBoxIcon fontSize={'large'}/>
+                <AddBox fontSize={'large'}/>
             </IconButton>
 
         </div>)
