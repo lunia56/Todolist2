@@ -1,5 +1,4 @@
 import axios from 'axios';
-import {CreateTodolist, DeleteTodolist} from '../stories/todolists-api.stories';
 
 type TodolistType = {
     id: string
@@ -38,6 +37,21 @@ export const todolistAPI = {
     updateTodolistTitle (todolistId:string,title:string){
        return instance
            .put<ResponseType>(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}`,{title:title})
+    },
+    getTask (todolistId:string){
+        return instance
+            .get(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`)
+    },
+    createTask(todolistId:string,taskTitle:string){
+        return instance
+            .post(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks`,{title:taskTitle})
+    },
+    deleteTask(todolistId:string,taskId:string){
+        return instance
+            .delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`)
+    },
+    updateTaskTitle(todolistId:string,taskId:string,taskTitle:string){
+        return instance
+            .put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${todolistId}/tasks/${taskId}`, {title:taskTitle})
     }
-
 }
