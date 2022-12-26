@@ -1,19 +1,21 @@
-import React, { FC, useCallback} from 'react';
-import {FilterValuesType} from './App';
+import React, {FC, useCallback, useEffect} from 'react';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
 import {Button,ButtonGroup, IconButton, List, Typography} from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 import {useSelector} from "react-redux";
-import {AppRootStateType} from "./store";
+import {AppDispatch, AppRootStateType} from "./store";
 import Task from "./Task";
+import {FilterValuesType} from './AppWithRedux';
+import {GetTasksTC} from './redux/tasks-reducer';
+import {TaskType} from './api/todolist-api';
 
-export type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-}
+// export type TaskType = {
+//     id: string
+//     title: string
+//     isDone: boolean
+// }
 
 // *----------------------------------------------------------------------*//
 type TodoListPropsType = {
@@ -32,14 +34,18 @@ type TodoListPropsType = {
 
 const TodoList: FC<TodoListPropsType> = React.memo((props) => {
     const tasks = useSelector<AppRootStateType, TaskType[]>(state => state.task[props.todoListID])
+    const dispatch = AppDispatch()
+    useEffect(()=>{
+        dispatch(GetTasksTC(props.todoListID))
+    },[])
 
     let tasksForRender = tasks;
-    if (props.filter === 'completed') {
-        tasksForRender = tasks.filter(task => task.isDone)
-    }
-    if (props.filter === 'active') {
-        tasksForRender = tasks.filter(task => !task.isDone)
-    }
+    // if (props.filter === 'completed') {
+    //     tasksForRender = tasks.filter(task => task.isDone)
+    // }
+    // if (props.filter === 'active') {
+    //     tasksForRender = tasks.filter(task => !task.isDone)
+    // }
 
 
     const AddTask = useCallback((title: string) => {
