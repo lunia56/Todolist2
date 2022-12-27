@@ -8,7 +8,7 @@ export default {
 export const GetTodolists = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        todolistAPI.getTodolist()
+        todolistAPI.getTodolists()
             .then((res) => setState(res.data))
     }, [])
     return <div>{JSON.stringify(state)}</div>
@@ -57,7 +57,7 @@ export const UpdateTodolistTitle = () => {
 
 
     const updateTodolistTitle = () => {
-        todolistAPI.updateTodolistTitle(todolistId, todolistTitle)
+        todolistAPI.updateTodolist(todolistId, todolistTitle)
             .then((res) => setState(res.data))
     }
     return <div>{JSON.stringify(state)}
@@ -77,7 +77,7 @@ export const GetTasks = () => {
     const [todolistId, setTodolistId] = useState<any>(null)
 
     const getTasks = () => {
-        todolistAPI.getTask(todolistId)
+        todolistAPI.getTasks(todolistId)
             .then((res) => setState(res.data))
     }
     return <div>{JSON.stringify(state)}
@@ -139,7 +139,7 @@ export const UpdateTaskTitle = () => {
 
 
     const updateTaskTitle = () => {
-        todolistAPI.updateTaskTitle(todolistId, taskId,taskTitle)
+        todolistAPI.updateTask(todolistId, taskId,taskTitle)
             .then((res) => setState(res.data))
     }
     return <div>{JSON.stringify(state)}

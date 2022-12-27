@@ -1,8 +1,8 @@
 import React, {ChangeEvent, FC} from 'react';
 import {EditableSpan} from './EditableSpan';
-import { Checkbox, IconButton, ListItem} from '@mui/material';
+import {Checkbox, IconButton, ListItem} from '@mui/material';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import {TaskType} from './api/todolist-api';
+import {TaskStatuses, TaskType} from './api/todolist-api';
 
 
 // export type TaskType = {
@@ -13,7 +13,7 @@ import {TaskType} from './api/todolist-api';
 export type TaskPropsType = {
     task: TaskType
     changeTaskTitle: (newTitle: string, id: string) => void
-    changeTaskStatus: (taskID: string, isDone: boolean) => void
+    changeTaskStatus: (taskID: string, status: TaskStatuses) => void
     removeTask: (taskID: string) => void
     // todoListID: string
 }
@@ -28,11 +28,14 @@ const Task: FC<TaskPropsType> = React.memo(
          removeTask
      }) => {
 
-        // let className = task.isDone ? 'isDone' : ''
+        let className = task.status === TaskStatuses.Completed ? 'isDone' : ''
 
-        const ChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, e.currentTarget.checked)
+        const ChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+            const newIsDoneValue = e.currentTarget.checked
+            changeTaskStatus(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New)
+        }
         const changeTitleTaskHandler = (newTitle: string) => {
-            changeTaskTitle(newTitle,  task.id)
+            changeTaskTitle(newTitle, task.id)
         }
         const removeTaskHandler = () => removeTask(task.id)
 
@@ -42,13 +45,13 @@ const Task: FC<TaskPropsType> = React.memo(
             <ListItem key={task.id}>
                 <Checkbox
                     onChange={ChangeTaskStatusHandler}
-                    // checked={task.isDone}
+                    checked={task.status === TaskStatuses.Completed}
                     color={"primary"}
                 />
 
                 <EditableSpan
-                    // className={className}
-                              title={task.title} changeTitle={changeTitleTaskHandler}/>
+                    className={className}
+                    title={task.title} changeTitle={changeTitleTaskHandler}/>
                 {/*<button onClick={() => props.removeTask(task.id, props.todoListID)}>x</button>*/}
                 <IconButton onClick={removeTaskHandler}
                             size={"small"}
