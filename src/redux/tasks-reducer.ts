@@ -158,4 +158,21 @@ export const UpdateTaskTC = (todolistId: string, taskId: string, status: TaskSta
     }
 
 })
+export const UpdateTaskTitleTC = (todolistId: string, taskId: string, title: string) => ((dispatch: Dispatch, getState: () => AppRootStateType) => {
+    const tasks = getState().task
+    const task = tasks[todolistId].find(el => el.id === taskId)
+    if (task) {
+        todolistAPI.updateTask(todolistId, taskId, {
+            title: title,
+            description: task.description,
+            status: task.status,
+            priority: task.priority,
+            startDate: task.startDate,
+            deadline: task.deadline
+        }).then((res) => {
+            dispatch(changeTaskTitleAC(taskId,title,todolistId))
+        })
+    }
+})
+
 
