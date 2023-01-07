@@ -143,6 +143,7 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispa
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) =>
     (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
         dispatch(setAppStatus("loading"))
+        dispatch(changeTaskEntityStatus(taskId, todolistId, 'loading'))
         const state = getState()
         const task = state.tasks[todolistId].find(t => t.id === taskId)
 
@@ -176,6 +177,9 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
             .catch((error: AxiosError<{ message: string }>) => {
                 const err = error.response ? error.response.data.message : error.message
                 handleServerNetworkError(err, dispatch)
+            })
+            .finally(()=>{
+                dispatch(changeTaskEntityStatus(taskId, todolistId, 'idle'))
             })
     }
 
