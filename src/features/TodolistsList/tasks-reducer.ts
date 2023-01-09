@@ -1,6 +1,6 @@
 import {
     AddTodolistActionType,
-    changeTodolistEntityStatus, ChangeTodolistEntityStatusActionType,
+    changeTodolistEntityStatus, ChangeTodolistEntityStatusActionType, ClearDataActionType,
     RemoveTodolistActionType,
     SetTodolistsActionType
 } from './todolists-reducer'
@@ -61,6 +61,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
                     entityStatus: action.status
                 } : t)
             }
+        case 'CLEAR-DATA':
+            return {}
         default:
             return state
     }
@@ -178,7 +180,7 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
                 const err = error.response ? error.response.data.message : error.message
                 handleServerNetworkError(err, dispatch)
             })
-            .finally(()=>{
+            .finally(() => {
                 dispatch(changeTaskEntityStatus(taskId, todolistId, 'idle'))
             })
     }
@@ -195,6 +197,7 @@ export type UpdateDomainTaskModelType = {
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
+export type setTaskActionType = ReturnType<typeof setTasksAC>
 type ActionsType =
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
@@ -202,8 +205,9 @@ type ActionsType =
     | AddTodolistActionType
     | RemoveTodolistActionType
     | SetTodolistsActionType
-    | ReturnType<typeof setTasksAC>
+    | setTaskActionType
     | setAppStatusType
     | setAppErrorType
     | ChangeTodolistEntityStatusActionType
     | ReturnType<typeof changeTaskEntityStatus>
+    | ClearDataActionType
