@@ -14,9 +14,7 @@ type TaskPropsType = {
     removeTask: (taskId: string, todolistId: string) => void
 }
 export const Task = React.memo((props: TaskPropsType) => {
-    console.log( "usually entity status",props.task.entityStatus)
     const onClickHandler = useCallback(() => {
-        console.log("remove entity status",props.task.entityStatus)
         props.removeTask(props.task.id, props.todolistId)
     }, [props.task.id, props.todolistId]);
 
