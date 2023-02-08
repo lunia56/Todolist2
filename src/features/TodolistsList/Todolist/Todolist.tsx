@@ -58,14 +58,14 @@ export const Todolist = React.memo(function (props: PropsType) {
     if (props.filter === 'completed') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
-    console.log(tasksForTodolist)
     return <div>
-        <h3><EditableSpan value={props.title} onChange={changeTodolistTitle} disabled={props.entityStatus==="loading"}/>
-            <IconButton onClick={removeTodolist} disabled={props.entityStatus==="loading"}>
+        <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}
+                          disabled={props.entityStatus === "loading"}/>
+            <IconButton onClick={removeTodolist} disabled={props.entityStatus === "loading"}>
                 <Delete/>
             </IconButton>
         </h3>
-        <AddItemForm addItem={addTask} disabled={props.entityStatus==="loading"}/>
+        <AddItemForm addItem={addTask} disabled={props.entityStatus === "loading"}/>
         <div>
             {
                 tasksForTodolist.map(t => <Task key={t.id} task={t}

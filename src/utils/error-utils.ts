@@ -1,23 +1,22 @@
-import { setAppError, setAppErrorType, setAppStatus, setAppStatusType } from '../app/app-reducer'
+import { setAppError, setAppStatus} from '../app/app-reducer'
 import { Dispatch } from 'redux'
 import { ResponseType } from '../api/todolists-api'
 
 // generic function
 //ошибка на стороне сервера
-export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
+export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: Dispatch) => {
     if (data.messages.length) {
-        dispatch(setAppError(data.messages[0]))
+        dispatch(setAppError({error:data.messages[0]}))
     } else {
-        dispatch(setAppError('Some error occurred'))
+        dispatch(setAppError({error:'Some error occurred'}))
     }
-    dispatch(setAppStatus('failed'))
+    dispatch(setAppStatus({status:'failed'}))
 }
 
 
 //ошибка в случае если не отправлен запрос (проблемы с сетью)
-export const handleServerNetworkError = (error: string , dispatch: ErrorUtilsDispatchType) => {
-    dispatch(setAppError(error))
-    dispatch(setAppStatus('failed'))
+export const handleServerNetworkError = (error: string , dispatch: Dispatch) => {
+    dispatch(setAppError({error:error}))
+    dispatch(setAppStatus({status:'failed'}))
 }
 
-type ErrorUtilsDispatchType = Dispatch<setAppErrorType | setAppStatusType>
