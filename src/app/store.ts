@@ -1,32 +1,40 @@
-import {tasksReducer} from '../features/TodolistsList/tasks-reducer';
-import {todolistsReducer} from '../features/TodolistsList/todolists-reducer';
-import thunkMiddleware from 'redux-thunk'
-import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import {appReducer} from './app-reducer';
-import {authReducer} from '../features/Login/auth-reducer';
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {tasksReducer} from '../features/TodolistsList/tasks-reducer'
+import {todolistsReducer} from '../features/TodolistsList/todolists-reducer'
+import {ActionCreatorsMapObject, bindActionCreators, combineReducers} from 'redux'
+import thunk from 'redux-thunk'
+import {appReducer} from './app-reducer'
+import {authReducer} from '../features/Login/auth-reducer'
+import {configureStore} from '@reduxjs/toolkit'
+import {useDispatch} from 'react-redux'
+import {useMemo} from 'react'
 
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
     todolists: todolistsReducer,
-    app:appReducer,
-    auth:authReducer
+    app: appReducer,
+    auth: authReducer
 })
 
-// redux toolkit
 export const store = configureStore({
-    reducer:rootReducer,
-    middleware:getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware)
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().prepend(thunk)
 })
-
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
+type AppDispatch = typeof store.dispatch
 
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
-export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
+export function useAction<T extends ActionCreatorsMapObject<any>>(action: T) {
+    const dispatch = useAppDispatch()
+
+    const boundActions = useMemo(() => {
+        return bindActionCreators(action, dispatch)
+    }, [])
+
+    return boundActions
+}
 
 // @ts-ignore
 window.store = store;

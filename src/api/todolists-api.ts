@@ -1,68 +1,64 @@
-import axios, {AxiosResponse} from 'axios'
-import {RequestStatusType} from '../app/app-reducer';
+import axios from "axios";
+
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
-        'API-KEY': '2d4dfcef-1677-495e-b268-58032de893b0'
+        'API-KEY': 'c2552144-2a3f-4ed6-b1f2-2eb2edcd9913'
     }
 })
 
 // api
 export const todolistsAPI = {
     getTodolists() {
-        return instance.get<TodolistType[]>('todo-lists');
+        return instance.get<Array<TodolistType>>('todo-lists')
     },
     createTodolist(title: string) {
-        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TodolistType }>>>('todo-lists', {title});
+        return instance.post<ResponseType<{ item: TodolistType }>>('todo-lists', {title})
     },
-    deleteTodolist(id: string) {
-        return instance.delete<ResponseType>(`todo-lists/${id}`);
+    deleteTodolist(todolistID: string) {
+        return instance.delete<ResponseType>(`todo-lists/${todolistID}`)
     },
-    updateTodolist(id: string, title: string) {
-        return instance.put<{ title: string }, AxiosResponse<ResponseType>>(`todo-lists/${id}`, {title});
+    updateTitleTodolist(todolistID: string, newTitle: string) {
+        return instance.put<ResponseType>(`todo-lists/${todolistID}`, {title: newTitle})
     },
-    getTasks(todolistId: string) {
-        return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
+    getTasks(todolistID: string) {
+        return instance.get<ResponseTasksType>(`todo-lists/${todolistID}/tasks`)
     },
-    deleteTask(todolistId: string, taskId: string) {
-        return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
+    createTask(todolistID: string, newTitle: string) {
+        return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistID}/tasks`, {title: newTitle})
     },
-    createTask(todolistId: string, title: string) {
-        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks`, {title});
+    deleteTask(todolistID: string, taskID: string) {
+        return instance.delete<ResponseType>(`todo-lists/${todolistID}/tasks/${taskID}`)
     },
-    updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-        return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
-    }
+    updateTask(todolistID: string, taskID: string, model: UpdateTaskModelType) {
+        return instance.put<ResponseType>(`todo-lists/${todolistID}/tasks/${taskID}`, model)
+    },
 }
 
-
-export const authAPI = {
-    login(data:AuthUserType) {
-        return instance.post<AuthUserType, AxiosResponse<ResponseType<{ id: number }>>>('auth/login', data);
-    },
-    me (){
-        return instance.get<ResponseType<meResponseType>>('auth/me');
-    },
-    logout(){
-        return instance.delete<ResponseType>('auth/login');
-
-    }
-}
-
-// types
-export type AuthUserType = {
+export type LoginParamsType = {
     email: string
     password: string
-    rememberMe?: boolean
+    rememberMe: boolean
+    captcha?: boolean
 }
 
-export type meResponseType = {
-    id:number
-    email:string
-    login:string
+export const authAPI = {
+    logIn(data: LoginParamsType) {
+        return instance.post<ResponseType<{ userId?: number }>>('/auth/login', data)
+    },
+    me() {
+        return instance.get<ResponseType<{ id: number, email: string, login: string }>>('/auth/me')
+    },
+    logOut() {
+        return instance.delete<ResponseType>('/auth/login')
+    },
+
 }
+
+
+// types
 export type TodolistType = {
     id: string
     title: string
@@ -72,10 +68,9 @@ export type TodolistType = {
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
-    fieldsErrors: Array<string>
+    fieldsErrors?: Array<{ field: string, error: string }>
     data: D
 }
-
 
 export enum TaskStatuses {
     New = 0,
@@ -92,12 +87,6 @@ export enum TaskPriorities {
     Later = 4
 }
 
-export enum ResultCode {
-    SUCCESS,
-    ERROR,
-    CAPTCHA = 10
-}
-
 export type TaskType = {
     description: string
     title: string
@@ -109,7 +98,12 @@ export type TaskType = {
     todoListId: string
     order: number
     addedDate: string
-    entityStatus: RequestStatusType
+}
+export type ResponseTasksType = {
+    items: TaskType[]
+    totalCount: number
+    error: string | null
+
 }
 export type UpdateTaskModelType = {
     title: string
@@ -119,8 +113,4 @@ export type UpdateTaskModelType = {
     startDate: string
     deadline: string
 }
-type GetTasksResponse = {
-    error: string | null
-    totalCount: number
-    items: TaskType[]
-}
+
